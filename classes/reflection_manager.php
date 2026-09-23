@@ -135,7 +135,7 @@ class reflection_manager {
      * @return \stdClass
      */
     public function add_entry(\stdClass $activity, int $userid, int $questionid, float $timepoint,
-                              string    $entrytype, string $text): \stdClass {
+                              string $entrytype, string $text): \stdClass {
         global $DB;
 
         if ($questionid) {

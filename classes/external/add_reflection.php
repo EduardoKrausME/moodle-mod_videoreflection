@@ -56,7 +56,7 @@ class add_reflection extends external_api {
      * @param string $reflectiontext Reflection text.
      * @return array
      */
-    public static function execute(int    $cmid, int $questionid, float $timepoint, string $entrytype,
+    public static function execute(int $cmid, int $questionid, float $timepoint, string $entrytype,
                                    string $reflectiontext): array {
         global $DB, $USER;
 

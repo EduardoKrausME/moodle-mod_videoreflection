@@ -309,7 +309,7 @@ function videoreflection_get_completion_state($course, $cm, int $userid, bool $t
  * @return void
  */
 function videoreflection_extend_settings_navigation(settings_navigation $settingsnav,
-                                                    navigation_node     $videoreflectionnode): void {
+                                                    navigation_node $videoreflectionnode): void {
     global $PAGE;
 
     $context = $PAGE->context;
