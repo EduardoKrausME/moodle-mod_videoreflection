@@ -45,7 +45,7 @@ class mod_videoreflection_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $this->standard_intro_elements();
 
-        $mform->addElement('header', 'sourceheader', get_string('sourceheader', 'videoreflection'));
+        $mform->addElement('html', '<h3>' . get_string('sourceheader', 'videoreflection') . '</h3>');
         $mform->addElement('select', 'videosource', get_string('videosource', 'videoreflection'), [
             'upload' => get_string('sourceupload', 'videoreflection'),
             'url' => get_string('sourceurl', 'videoreflection'),
@@ -57,7 +57,6 @@ class mod_videoreflection_mod_form extends moodleform_mod {
 
         $mform->addElement('filemanager', 'videofile', get_string('videofile', 'videoreflection'), null, [
             'subdirs' => 0,
-            'maxfiles' => 1,
             'accepted_types' => ['.mp4', '.webm', '.ogv', '.m4v', '.mov'],
         ]);
         $mform->hideIf('videofile', 'videosource', 'neq', 'upload');
@@ -69,11 +68,10 @@ class mod_videoreflection_mod_form extends moodleform_mod {
 
         $mform->addElement('filemanager', 'poster', get_string('poster', 'videoreflection'), null, [
             'subdirs' => 0,
-            'maxfiles' => 1,
             'accepted_types' => ['image'],
         ]);
 
-        $mform->addElement('header', 'playbackheader', get_string('playbackheader', 'videoreflection'));
+        $mform->addElement('html', '<h3>' . get_string('playbackheader', 'videoreflection') . '</h3>');
         $mform->addElement('select', 'resumeplayback', get_string('resumeplayback', 'videoreflection'), [
             1 => get_string('resumeautomatic', 'videoreflection'),
             2 => get_string('resumeask', 'videoreflection'),
@@ -84,7 +82,7 @@ class mod_videoreflection_mod_form extends moodleform_mod {
         $mform->setDefault('allowseek', 1);
         $mform->addHelpButton('allowseek', 'allowseek', 'videoreflection');
 
-        $mform->addElement('header', 'reflectionsettings', get_string('reflectionsettings', 'videoreflection'));
+        $mform->addElement('html', '<h3>' . get_string('reflectionsettings', 'videoreflection') . '</h3>');
         $mform->addElement('select', 'privacymode', get_string('privacymode', 'videoreflection'), [
             0 => get_string('private', 'videoreflection'),
             1 => get_string('shared', 'videoreflection'),
@@ -133,6 +131,15 @@ class mod_videoreflection_mod_form extends moodleform_mod {
             $errors['videourl'] = get_string('invalidyoutube', 'videoreflection');
         } else if ($source === 'vimeo' && \mod_videoreflection\player_helper::vimeo_id($value) === '') {
             $errors['videourl'] = get_string('invalidvimeo', 'videoreflection');
+        }
+        foreach (['videofile', 'poster'] as $field) {
+            $draftid = (int)($data[$field] ?? 0);
+            if ($draftid > 0) {
+                $draftinfo = file_get_draft_area_info($draftid);
+                if ((int)$draftinfo['filecount'] > 1) {
+                    $errors[$field] = get_string('errormaxfiles', 'videoreflection');
+                }
+            }
         }
         return $errors;
     }
