@@ -31,6 +31,15 @@ require_once($CFG->dirroot . '/mod/videoreflection/backup/moodle2/restore_videor
  */
 class restore_videoreflection_activity_task extends restore_activity_task {
     /**
+     * Defines activity-specific restore settings.
+     *
+     * @return void
+     */
+    protected function define_my_settings(): void {
+        // No particular settings for this activity.
+    }
+
+    /**
      * Adds the structure restore step.
      *
      * @return void
