@@ -100,6 +100,20 @@ final class backup_restore_test extends \advanced_testcase {
             \backup::MODE_IMPORT,
             $USER->id
         );
+        foreach (['blocks', 'filters'] as $settingname) {
+            $plan = $controller->get_plan();
+            if (!$plan->setting_exists($settingname)) {
+                continue;
+            }
+            $setting = $plan->get_setting($settingname);
+            if ($setting->get_status() !== \base_setting::NOT_LOCKED) {
+                $setting->set_status(\base_setting::NOT_LOCKED);
+            }
+            if ($setting->get_status() === \base_setting::NOT_LOCKED) {
+                $setting->set_value(false);
+            }
+        }
+
         $backupid = $controller->get_backupid();
         $controller->execute_plan();
         $controller->destroy();
