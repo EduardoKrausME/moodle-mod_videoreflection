@@ -218,32 +218,12 @@ class mod_videoreflection_mod_form extends moodleform_mod {
     }
 
     /**
-     * Normalises suffixed completion fields back to database column names.
-     *
-     * @return stdClass|false
-     */
-    public function get_data() {
-        $data = parent::get_data();
-        if (!$data) {
-            return $data;
-        }
-        foreach (['completionpercent', 'completionreflections', 'completionrequiredquestions'] as $field) {
-            $suffixed = $this->get_suffixed_name($field);
-            if (property_exists($data, $suffixed)) {
-                $data->{$field} = $data->{$suffixed};
-                unset($data->{$suffixed});
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Returns the completion form field name used by this activity.
      *
      * @param string $field Base field name.
      * @return string
      */
     private function get_suffixed_name(string $field): string {
-        return $field . '_videoreflection';
+        return $field . $this->get_suffix();
     }
 }
