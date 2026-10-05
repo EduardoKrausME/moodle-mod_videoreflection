@@ -35,7 +35,7 @@ class restore_videoreflection_activity_task extends restore_activity_task {
      *
      * @return void
      */
-    protected function define_my_settings(): void {
+    protected function define_my_settings() {
         // No particular settings for this activity.
     }
 
@@ -44,7 +44,7 @@ class restore_videoreflection_activity_task extends restore_activity_task {
      *
      * @return void
      */
-    protected function define_my_steps(): void {
+    protected function define_my_steps() {
         $this->add_step(new restore_videoreflection_activity_structure_step(
             'videoreflection_structure',
             'videoreflection.xml'
@@ -56,7 +56,7 @@ class restore_videoreflection_activity_task extends restore_activity_task {
      *
      * @return restore_decode_content[]
      */
-    public static function define_decode_contents(): array {
+    public static function define_decode_contents() {
         return [new restore_decode_content('videoreflection', ['intro'], 'videoreflection')];
     }
 
@@ -65,7 +65,7 @@ class restore_videoreflection_activity_task extends restore_activity_task {
      *
      * @return restore_decode_rule[]
      */
-    public static function define_decode_rules(): array {
+    public static function define_decode_rules() {
         return [
             new restore_decode_rule('VIDEOREFLECTIONVIEWBYID', '/mod/videoreflection/view.php?id=$1', 'course_module'),
         ];
@@ -76,9 +76,18 @@ class restore_videoreflection_activity_task extends restore_activity_task {
      *
      * @return restore_log_rule[]
      */
-    public static function define_restore_log_rules(): array {
+    public static function define_restore_log_rules() {
         return [
             new restore_log_rule('videoreflection', 'view', 'view.php?id={course_module}', '{videoreflection}'),
         ];
+    }
+
+    /**
+     * Defines restore log rules applied to course-level logs.
+     *
+     * @return restore_log_rule[]
+     */
+    public static function define_restore_log_rules_for_course() {
+        return [];
     }
 }
