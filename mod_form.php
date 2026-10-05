@@ -102,8 +102,8 @@ class mod_videoreflection_mod_form extends moodleform_mod {
      */
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
-        $percentname = $this->get_suffixed_name('completionpercent');
-        $reflectionsname = $this->get_suffixed_name('completionreflections');
+        $percentname = $this->get_completion_field_name('completionpercent');
+        $reflectionsname = $this->get_completion_field_name('completionreflections');
         $percent = (int)($data[$percentname] ?? 0);
         if ($percent < 0 || $percent > 100) {
             $errors[$percentname] = get_string('completionpercent', 'videoreflection') . ': 0-100';
@@ -154,7 +154,7 @@ class mod_videoreflection_mod_form extends moodleform_mod {
         parent::data_preprocessing($defaultvalues);
         foreach (['completionpercent', 'completionreflections', 'completionrequiredquestions'] as $field) {
             if (array_key_exists($field, $defaultvalues)) {
-                $defaultvalues[$this->get_suffixed_name($field)] = $defaultvalues[$field];
+                $defaultvalues[$this->get_completion_field_name($field)] = $defaultvalues[$field];
             }
         }
         if (empty($this->current->instance)) {
@@ -185,9 +185,9 @@ class mod_videoreflection_mod_form extends moodleform_mod {
      */
     public function add_completion_rules(): array {
         $mform = $this->_form;
-        $percent = $this->get_suffixed_name('completionpercent');
-        $reflections = $this->get_suffixed_name('completionreflections');
-        $requiredquestions = $this->get_suffixed_name('completionrequiredquestions');
+        $percent = $this->get_completion_field_name('completionpercent');
+        $reflections = $this->get_completion_field_name('completionreflections');
+        $requiredquestions = $this->get_completion_field_name('completionrequiredquestions');
 
         $mform->addElement('text', $percent, get_string('completionpercent', 'videoreflection'), ['size' => 6]);
         $mform->setType($percent, PARAM_INT);
@@ -212,29 +212,9 @@ class mod_videoreflection_mod_form extends moodleform_mod {
      * @return bool
      */
     public function completion_rule_enabled($data): bool {
-        return !empty($data[$this->get_suffixed_name('completionpercent')]) ||
-            !empty($data[$this->get_suffixed_name('completionreflections')]) ||
-            !empty($data[$this->get_suffixed_name('completionrequiredquestions')]);
-    }
-
-    /**
-     * Normalises suffixed completion fields back to database column names.
-     *
-     * @return stdClass|false
-     */
-    public function get_data() {
-        $data = parent::get_data();
-        if (!$data) {
-            return $data;
-        }
-        foreach (['completionpercent', 'completionreflections', 'completionrequiredquestions'] as $field) {
-            $suffixed = $this->get_suffixed_name($field);
-            if (property_exists($data, $suffixed)) {
-                $data->{$field} = $data->{$suffixed};
-                unset($data->{$suffixed});
-            }
-        }
-        return $data;
+        return !empty($data[$this->get_completion_field_name('completionpercent')]) ||
+            !empty($data[$this->get_completion_field_name('completionreflections')]) ||
+            !empty($data[$this->get_completion_field_name('completionrequiredquestions')]);
     }
 
     /**
@@ -244,6 +224,6 @@ class mod_videoreflection_mod_form extends moodleform_mod {
      * @return string
      */
     private function get_suffixed_name(string $field): string {
-        return $field . '_videoreflection';
+        return $field . $this->get_suffix();
     }
 }
