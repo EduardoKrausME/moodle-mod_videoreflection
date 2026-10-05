@@ -77,6 +77,20 @@ final class backup_restore_test extends \advanced_testcase {
             'timecreated' => time(),
             'timemodified' => time(),
         ]);
+        $DB->insert_record('videoreflection_progress', (object)[
+            'videoreflectionid' => $activity->id,
+            'userid' => $USER->id,
+            'duration' => 120,
+            'lastposition' => 90,
+            'uniquewatched' => 90,
+            'totalwatchtime' => 95,
+            'percent' => 75,
+            'watchedsegments' => '[[0,90]]',
+            'completed' => 0,
+            'sequence' => 1,
+            'timecreated' => time(),
+            'timemodified' => time(),
+        ]);
 
         $controller = new \backup_controller(
             \backup::TYPE_1ACTIVITY,
@@ -110,6 +124,14 @@ final class backup_restore_test extends \advanced_testcase {
         $this->assertEquals(
             1,
             $DB->count_records('videoreflection_questions', ['videoreflectionid' => $restored->id])
+        );
+        $this->assertEquals(
+            1,
+            $DB->count_records('videoreflection_entries', ['videoreflectionid' => $restored->id])
+        );
+        $this->assertEquals(
+            1,
+            $DB->count_records('videoreflection_progress', ['videoreflectionid' => $restored->id])
         );
     }
 }
