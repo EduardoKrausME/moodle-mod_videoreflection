@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'mod_videoreflection';
-$plugin->version = 2026100502;
+$plugin->version = 2026100503;
 $plugin->release = '1.0.6';
 $plugin->requires = 2024042200;
 $plugin->maturity = MATURITY_STABLE;
