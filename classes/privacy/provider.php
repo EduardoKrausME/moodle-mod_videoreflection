@@ -21,7 +21,6 @@ use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\core_userlist_provider;
-use core_privacy\local\request\plugin_provider;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 
@@ -32,7 +31,10 @@ use core_privacy\local\request\writer;
  * @copyright 2026 Eduardo Kraus
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider, plugin_provider, core_userlist_provider {
+class provider implements
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\plugin\provider,
+    core_userlist_provider {
     /**
      * Describes personal data stored by the plugin.
      *
