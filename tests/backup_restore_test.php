@@ -100,7 +100,7 @@ final class backup_restore_test extends \advanced_testcase {
             \backup::MODE_IMPORT,
             $USER->id
         );
-        foreach (['blocks', 'filters'] as $settingname) {
+        foreach (['blocks'] as $settingname) {
             $plan = $controller->get_plan();
             if (!$plan->setting_exists($settingname)) {
                 continue;
