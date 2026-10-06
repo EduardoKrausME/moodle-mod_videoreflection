@@ -42,7 +42,7 @@ final class backup_restore_test extends \advanced_testcase {
         $this->resetAfterTest(true);
         $this->setAdminUser();
 
-        $course = $this->getDataGenerator()->create_course();
+        $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
         $activity = $this->getDataGenerator()->create_module('videoreflection', [
             'course' => $course->id,
             'name' => 'Backup round-trip',
@@ -97,7 +97,7 @@ final class backup_restore_test extends \advanced_testcase {
             $cm->id,
             \backup::FORMAT_MOODLE,
             \backup::INTERACTIVE_NO,
-            \backup::MODE_IMPORT,
+            \backup::MODE_GENERAL,
             $USER->id
         );
         foreach (['blocks'] as $settingname) {
@@ -122,7 +122,7 @@ final class backup_restore_test extends \advanced_testcase {
             $backupid,
             $course->id,
             \backup::INTERACTIVE_NO,
-            \backup::MODE_IMPORT,
+            \backup::MODE_GENERAL,
             $USER->id,
             \backup::TARGET_CURRENT_ADDING
         );
