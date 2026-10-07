@@ -101,7 +101,7 @@ final class backup_restore_test extends \advanced_testcase {
             $cm->id,
             \backup::FORMAT_MOODLE,
             \backup::INTERACTIVE_NO,
-            \backup::MODE_IMPORT,
+            \backup::MODE_GENERAL,
             $USER->id
         );
         $plan = $controller->get_plan();
