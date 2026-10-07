@@ -101,7 +101,6 @@ final class backup_restore_test extends \advanced_testcase {
             $USER->id
         );
         foreach (['blocks'] as $settingname) {
-            $plan = $controller->get_plan();
             if (!$plan->setting_exists($settingname)) {
                 continue;
             }
@@ -126,6 +125,11 @@ final class backup_restore_test extends \advanced_testcase {
             $USER->id,
             \backup::TARGET_CURRENT_ADDING
         );
+        $restoreplan = $restore->get_plan();
+        $restoreuserssetting = $restoreplan->get_setting('users');
+        $restoreuserssetting->set_status(\\base_setting::NOT_LOCKED);
+        $restoreuserssetting->set_value(true);
+
         $this->assertTrue($restore->execute_precheck());
         $restore->execute_plan();
         $restore->destroy();
