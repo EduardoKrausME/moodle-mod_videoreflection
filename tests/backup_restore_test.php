@@ -97,9 +97,14 @@ final class backup_restore_test extends \advanced_testcase {
             $cm->id,
             \backup::FORMAT_MOODLE,
             \backup::INTERACTIVE_NO,
-            \backup::MODE_GENERAL,
+            \backup::MODE_IMPORT,
             $USER->id
         );
+        $plan = $controller->get_plan();
+        $usersetting = $plan->get_setting('users');
+        $usersetting->set_status(\base_setting::NOT_LOCKED);
+        $usersetting->set_value(true);
+
         foreach (['blocks'] as $settingname) {
             if (!$plan->setting_exists($settingname)) {
                 continue;
@@ -127,7 +132,7 @@ final class backup_restore_test extends \advanced_testcase {
         );
         $restoreplan = $restore->get_plan();
         $restoreuserssetting = $restoreplan->get_setting('users');
-        $restoreuserssetting->set_status(\\base_setting::NOT_LOCKED);
+        $restoreuserssetting->set_status(\base_setting::NOT_LOCKED);
         $restoreuserssetting->set_value(true);
 
         $this->assertTrue($restore->execute_precheck());
