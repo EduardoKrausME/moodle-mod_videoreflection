@@ -43,6 +43,10 @@ final class backup_restore_test extends \advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
+        $learner = $this->getDataGenerator()->create_user();
+        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $this->getDataGenerator()->enrol_user($learner->id, $course->id, $studentroleid);
+
         $activity = $this->getDataGenerator()->create_module('videoreflection', [
             'course' => $course->id,
             'name' => 'Backup round-trip',
@@ -69,7 +73,7 @@ final class backup_restore_test extends \advanced_testcase {
         $DB->insert_record('videoreflection_entries', (object)[
             'videoreflectionid' => $activity->id,
             'questionid' => $questionid,
-            'userid' => $USER->id,
+            'userid' => $learner->id,
             'timepoint' => 10,
             'entrytype' => 'reflection',
             'reflectiontext' => 'Backup test reflection',
@@ -79,7 +83,7 @@ final class backup_restore_test extends \advanced_testcase {
         ]);
         $DB->insert_record('videoreflection_progress', (object)[
             'videoreflectionid' => $activity->id,
-            'userid' => $USER->id,
+            'userid' => $learner->id,
             'duration' => 120,
             'lastposition' => 90,
             'uniquewatched' => 90,
