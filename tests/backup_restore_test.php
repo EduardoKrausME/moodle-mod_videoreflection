@@ -123,8 +123,20 @@ final class backup_restore_test extends \advanced_testcase {
         }
 
         $backupid = $controller->get_backupid();
+        $backupbasepath = $controller->get_plan()->get_basepath();
         $controller->execute_plan();
+        $results = $controller->get_results();
+        $backupfile = $results['backup_destination'];
         $controller->destroy();
+
+        // MODE_GENERAL creates the archive and may clean the temporary directory.
+        // Restore expects the extracted Moodle backup structure under $backupid.
+        if (!file_exists($backupbasepath . '/moodle_backup.xml')) {
+            $backupfile->extract_to_pathname(
+                get_file_packer('application/vnd.moodle.backup'),
+                $backupbasepath
+            );
+        }
 
         $restore = new \restore_controller(
             $backupid,
