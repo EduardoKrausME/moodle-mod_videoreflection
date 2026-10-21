@@ -77,7 +77,7 @@ class add_reflection extends external_api {
         if ($text === '') {
             throw new \invalid_parameter_exception(get_string('reflectionrequired', 'videoreflection'));
         }
-        if (\core_text::strlen($text) > 10000) {
+        if (strlen($text) > 10000) {
             throw new \invalid_parameter_exception(get_string('reflectiontoolong', 'videoreflection'));
         }
         if (!in_array($params['entrytype'], ['reflection', 'doubt'], true)) {
