@@ -25,7 +25,3 @@ completion and reporting concepts.
 
 - Moodle 4.4 or later.
 - PHP version supported by the installed Moodle version.
-
-## Installation
-
-Copy the `videoreflection` directory to `mod/videoreflection` and visit Site administration > Notifications.
