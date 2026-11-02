@@ -2,6 +2,14 @@
 
 This changelog documents only the two most recent published GitHub releases. Each entry describes verified changes between its release tag and the immediately preceding published release. Changes made later on `master` are excluded.
 
+## 1.0.10 - 2026-11-01
+
+- Removed legacy `core_text` usage from reflection submission handling and related tests.
+- Normalized PHP headers and rebuilt the player AMD asset.
+- Updated the release workflow and removed installation instructions from the README.
+
+**Full comparison:** [1.0.9...1.0.10](https://github.com/EduardoKrausME/moodle-mod_videoreflection/compare/1.0.9...1.0.10)
+
 ## 1.0.9 - 2026-10-15
 
 ### Changed
